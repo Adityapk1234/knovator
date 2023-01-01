@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+
+import { useState } from "react";
+import { AddReview, Header, Reviews } from "./Container";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [reviews, setReviews] = useState([]);
+
+    const [showReview, setShowReview] = useState(false)
+
+    //Add review
+    const addReview = (review) => {
+        const id = Math.floor(Math.random() * 10000) + 1;
+        const newReview = { id, ...review };
+        setReviews([...reviews, newReview]);
+    };
+
+    //Delete review
+    const deleteReview = (id) => {
+        setReviews(reviews.filter((review) => review.id !== id));
+    };
+
+    //Reset form
+    const resetHandler = () => {
+        setReviews([])
+    }
+
+    //Toggle between form and review
+    const showReviewHandler = () => {
+        setShowReview(!showReview)
+    }
+
+
+    return (
+        <div className="container">
+            <Header show={showReviewHandler} />
+
+            {showReview ?
+                reviews.length > 0 ? (
+                    <Reviews reviews={reviews} onDelete={deleteReview} />
+                ) : (
+                    "No reviews to show"
+                )
+                : <AddReview onAdd={addReview} onReset={resetHandler} />
+            }
+        </div>
+    );
 }
 
 export default App;
