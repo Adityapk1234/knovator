@@ -33,7 +33,7 @@ function App() {
 
     return (
         <div className="container">
-            <Header show={showReviewHandler} />
+            <Header show={showReviewHandler} shower={showReview} />
 
             {showReview ?
                 reviews.length > 0 ? (
